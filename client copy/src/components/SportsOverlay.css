@@ -1,0 +1,37 @@
+/* Certifique-se que o item serve de referência para o absolute */
+.sport-item {
+  position: relative; /* já existe em alguns arquivos, garanta que esteja aqui */
+  overflow: visible;  /* importante: permitir que o overlay "vaze" para baixo */
+  z-index: 20;        /* mantém o item acima do fundo */
+}
+
+/* Overlay específico do item - abre para baixo */
+.sport-overlay {
+  position:absolute;
+  top: calc(100% + 8px); /* 8px de gap entre o item e o overlay */
+  left: 50%;               /* alinhado ao começo do item. mude para center se preferir */
+  transform: translate(-50%);
+  background: #323641;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(24,28,35,0.07), 0 1.5px 8px rgba(0,0,0,0.02);
+  padding: 18px 24px;
+  min-width: 420px;      /* ajuste conforme necessário */
+  max-width: 640px;
+  display: flex;
+  gap: 32px;
+  z-index: 999;          /* acima de outros elementos */
+  color: #fff;
+  animation: fadein .15s;
+  white-space: normal;   /* evita quebras estranhas */
+}
+
+/* Para centrar o overlay abaixo do item (opcional) */
+.sport-item.center-overlay .sport-overlay {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Se a nav tem overflow escondido, force visible */
+.sports-nav, .nav-container {
+  overflow: visible; /* permite que o overlay apareça fora do contêiner */
+}

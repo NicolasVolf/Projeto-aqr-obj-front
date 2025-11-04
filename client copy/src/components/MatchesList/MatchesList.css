@@ -1,0 +1,76 @@
+.matches-list {
+  background: #23283e;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 18px 0;
+  width: 350px;
+  min-width: 320px;
+}
+.category-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.category-type {
+  color: #7ca2fa;
+  font-size: 13px;
+  font-weight: 600;
+}
+.category-name {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 3px;
+}
+.match-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #181c23;
+  margin-bottom: 11px;
+  border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: 0 1px 2px #181c2311;
+  font-size: 15px;
+}
+.match-time {
+  font-weight: 600;
+  color: #7ca2fa;
+  min-width: 48px;
+}
+.match-teams {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.team {
+  font-weight: bold;
+  color: #fff;
+}
+.vs {
+  color: #444;
+  font-size: 15px;
+}
+.match-status {
+  font-size: 13px;
+  min-width: 66px;
+  text-align: right;
+  color: #bbb;
+}
+.match-status.live {
+  color: #1f7bff;
+  font-weight: bold;
+}
+.favorite-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+.favorite-btn:hover {
+  color: #ffbe22;
+}

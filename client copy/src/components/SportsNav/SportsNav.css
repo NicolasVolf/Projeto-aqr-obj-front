@@ -1,0 +1,138 @@
+.sports-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 58px;
+  background: #22262c;
+  border-bottom: 1px solid #23283e;
+  position: relative;
+  z-index: 10;
+}
+
+.sports-list {
+  display: flex;
+  gap: 22px;
+}
+
+.sport-item {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 8px;
+  position: relative;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.sport-item:hover {
+  background: #252b37;
+}
+
+.sport-icon {
+  margin-right: 6px;
+  font-size: 18px;
+}
+
+.sport-count {
+  background: #1f7bff;
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 7px;
+.sport-item {
+  /* ...existing code... */
+  position: relative;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sports-list {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sport-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sport-item.active {
+  background-color: #2d3447;
+}
+
+.sport-item {
+  position: relative;
+}
+
+.sport-overlay {
+  width: 100%;
+  background: #2d3447;
+  padding: 24px;
+  display: flex;
+  gap: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.overlay-section {
+  min-width: 200px;
+}
+
+.overlay-section h3 {
+  color: #8c8c8c;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.overlay-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.overlay-section li {
+  color: #ffffff;
+  padding: 6px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.overlay-section li:hover {
+  color: #3d88f6;
+}
+  margin-left: 8px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.sports-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.fantasy-btn, .odds-btn {
+  padding: 5px 18px;
+  border-radius: 16px;
+  border: none;
+  background: #2b3042;
+  color: #1f7bff;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.fantasy-btn:hover, .odds-btn:hover {
+  background: #1f7bff;
+  color: #fff;
+}
