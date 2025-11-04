@@ -6,61 +6,67 @@ const matches = [
     id: 1,
     competition: { name: 'Liga dos Campeões da UEFA', type: 'Europa' },
     games: [
-      {
-        id: 1,
-        homeTeam: 'Slavia Praha',
-        awayTeam: 'Arsenal',
-        time: '14:45',
-        status: 'Ao Vivo'
-      },
-      {
-        id: 2,
-        homeTeam: 'Napoli',
-        awayTeam: 'Frankfurt',
-        time: '14:45',
-        status: 'Ao Vivo'
-      },
-      {
-        id: 3,
-        homeTeam: 'Liverpool',
-        awayTeam: 'Real Madrid',
-        time: '17:00',
-        status: 'Próximos'
-      },
-      {
-        id: 4,
-        homeTeam: 'PSG',
-        awayTeam: 'Bayern',
-        time: '17:00',
-        status: 'Próximos'
-      }
+      { id: 1, homeTeam: 'Slavia Praha', awayTeam: 'Arsenal', time: '14:45' },
+      { id: 2, homeTeam: 'Napoli', awayTeam: 'Frankfurt', time: '14:45' },
+      { id: 3, homeTeam: 'Liverpool', awayTeam: 'Real Madrid', time: '17:00' },
+      { id: 4, homeTeam: 'PSG', awayTeam: 'Bayern', time: '17:00' }
+    ]
+  },
+  {
+    id: 2,
+    competition: { name: 'Brasileirão Série A', type: 'Brasil' },
+    games: [
+      { id: 1, homeTeam: 'Flamengo', awayTeam: 'Palmeiras', time: '18:30' },
+      { id: 2, homeTeam: 'São Paulo', awayTeam: 'Corinthians', time: '20:00' },
+      { id: 3, homeTeam: 'Grêmio', awayTeam: 'Internacional', time: '21:30' }
+    ]
+  },
+  {
+    id: 3,
+    competition: { name: 'Major League Soccer (MLS)', type: 'EUA' },
+    games: [
+      { id: 1, homeTeam: 'LA Galaxy', awayTeam: 'New York City FC', time: '22:00' },
+      { id: 2, homeTeam: 'Inter Miami', awayTeam: 'Atlanta United', time: '23:30' }
     ]
   }
 ];
 
 const MatchesList = () => {
+  // Agrupa por region (competition.type)
+  const grouped = matches.reduce((acc, category) => {
+    const region = category.competition.type || 'Outros';
+    if (!acc[region]) acc[region] = [];
+    acc[region].push(category);
+    return acc;
+  }, {});
+
   return (
-    <div className="matches-list">
-      {matches.map(category => (
-        <div className="category" key={category.id}>
-          <div className="category-header">
-            <span className="category-type">{category.competition.type}</span>
-            <span className="category-name">{category.competition.name}</span>
+    <div className="matches-container">
+      {Object.entries(grouped).map(([region, categories]) => (
+        <div className="matches-box" key={region}>
+          <div className="matches-box-header">
+            <span className="matches-region">{region}</span>
           </div>
-          {category.games.map(match => (
-            <div className="match-card" key={match.id}>
-              <div className="match-time">{match.time}</div>
-              <div className="match-teams">
-                <span className="team home">{match.homeTeam}</span>
-                <span className="vs">x</span>
-                <span className="team away">{match.awayTeam}</span>
+
+          {categories.map(category => (
+            <div className="category" key={category.id}>
+              <div className="category-header">
+                <span className="category-name">{category.competition.name}</span>
               </div>
-              <span className={`match-status ${match.status === 'Ao Vivo' ? 'live' : ''}`}>
-                {match.status}
-              </span>
-              <button className="favorite-btn">
-                <i className="fa-regular fa-star"></i>
-              </button>
+
+              {category.games.map(match => (
+                <div className="match-card" key={`${category.id}-${match.id}`}>
+                  <div className="match-time">{match.time}</div>
+                  <div className="match-teams">
+                    <span className="team home">{match.homeTeam}</span>
+                    <span className="vs">x</span>
+                    <span className="team away">{match.awayTeam}</span>
+                  </div>
+                  <span className={`match-status ${match.status === 'Ao Vivo' ? 'live' : ''}`}>
+                    {match.status}
+                  </span>
+                </div>
+              ))}
             </div>
           ))}
         </div>
