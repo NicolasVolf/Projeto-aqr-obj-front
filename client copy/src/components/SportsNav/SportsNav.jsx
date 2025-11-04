@@ -22,7 +22,6 @@ const SportsNav = () => {
             {sport.count > 0 && (
               <span className="sport-count">{sport.count}</span>
             )}
-            {/* Overlay simples ao passar o mouse */}
             {hoveredSport === sport.id && overlayData[sport.id] && (
               <div className="sport-overlay">
                 <div><strong>Competições:</strong></div>
