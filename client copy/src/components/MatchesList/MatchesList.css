@@ -1,155 +1,138 @@
+/* MatchesList.css - substitua todo o arquivo por isso */
+
+/* container geral centalizado */
 .matches-container {
-  display: flex;
-  flex-direction: row;      /* coloca lado a lado */
-  justify-content: space-evenly; /* distribui o espaço igualmente entre as caixas */
-  align-items: flex-start;  /* alinha pelo topo */
-  flex-wrap: wrap;          /* permite quebrar linha se faltar espaço */
-  gap: 24px 32px;          /* gap vertical 24px, horizontal 32px */
-  padding: 18px 0;
-  width: 100%;             /* garante que ocupe toda a largura disponível */
+  max-width: 980px;
+  margin: 28px auto;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* cards lado a lado */
+  gap: 32px;
+  align-items: start;
+  box-sizing: border-box;
 }
 
-
-/* Caixinha por região */
+/* cada card (box) que contém 1 ou mais categorias */
 .matches-box {
-  background: #23283e;
-  border-radius: 12px;
-  padding: 16px;
-  width: 320px;        /* largura fixa para cada caixinha */
-  min-width: 280px;
-  max-width: 350px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  flex: 1 1 300px;     /* evita encolher demais */
+  background: #2b3246; /* tom escuro azulado */
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  color: #fff;
 }
 
-/* Cabeçalho da caixinha (ex: Brasil / Europa / EUA) */
+/* header do card (pequeno label "Todos") */
 .matches-box-header {
-  margin-bottom: 12px;
-}
-
-.matches-region {
-  color: #7ca2fa;
-  font-size: 13px;
-  font-weight: 700;
-  display: block;
-  margin-bottom: 6px;
-}
-
-/* Reaproveita estilos das categorias, só adaptando margens */
-.category {
-  margin-bottom: 12px;
-}
-
-.category-header {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 8px;
 }
-
-.category-name {
-  color: #fff;
-  font-size: 16px;
+.matches-region {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #86a0ff;
   font-weight: 700;
 }
 
-/* Cartão do jogo */
-.match-card {
+/* nome da competição em destaque */
+.category-header {
+  margin: 10px 0 12px 0;
+}
+.category-name {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #eef2ff;
+}
+
+/* lista de partidas (cada partida é um 'match-card') */
+.category .match-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: #181c23;
-  margin-bottom: 10px;
+  gap: 16px;
+  padding: 10px 14px;
   border-radius: 10px;
-  padding: 8px 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
-  font-size: 15px;
+  background: rgba(0,0,0,0.25);
+  margin: 8px 0;
+  transition: transform .12s ease, box-shadow .12s ease;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
-/* horário */
+/* hover sutil */
+.category .match-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+}
+
+/* bloco do horário/data - não encurta os times */
 .match-time {
-  font-weight: 700;
-  color: #7ca2fa;
-  min-width: 48px;
-}
-
-/* equipes */
-.match-teams {
-  flex: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  padding: 0 8px; /* evita colar nas bordas */
-}
-
-.team {
-  font-weight: 700;
-  color: #fff;
+  min-width: 110px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.9rem;
   white-space: nowrap;
+  background: rgba(72,90,160,0.18);
+  color: #cfe0ff;
+  flex: 0 0 auto; /* não encolhe nem cresce */
 }
 
-/* separador 'x' */
+/* área com os times - usa flex e permite overflow controlado */
+.match-teams {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  overflow: hidden;
+  justify-content: flex-start;
+}
+
+/* nomes dos times - evitam overflow visual */
+.team {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 800;
+  max-width: 46%;     /* cada time ocupa até ~46% do espaço restante */
+  color: #f6f7fb;
+}
+
+/* "x" separador central */
 .vs {
-  color: #6b6f7a;
-  font-size: 14px;
-}
-
-/* status */
-.match-status {
-  font-size: 13px;
-  min-width: 66px;
-  text-align: right;
-  color: #bbb;
-}
-
-.match-status.live {
-  color: #1f7bff;
+  color: rgba(255,255,255,0.5);
+  flex: 0 0 auto;
   font-weight: 700;
 }
 
-/* botão favorito */
-.favorite-btn {
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 18px;
-  padding: 0 4px;
-  transition: color 0.2s;
+/* status (ex.: Ao Vivo) - caso use depois */
+.match-status {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  color: #d0d6ff;
 }
 
-.favorite-btn:hover {
-  color: #ffbe22;
-}
-
-/* Responsividade: em telas muito pequenas, cada caixa ocupa 100% */
-@media (max-width: 980px) {
+/* responsividade - telas muito pequenas ficam 1 coluna e ajuste de paddings */
+@media (max-width: 640px) {
   .matches-container {
-    justify-content: center;
+    padding: 0 12px;
+    gap: 18px;
   }
-
-  .matches-box {
-    width: 420px;
-    max-width: calc(100% - 40px);
-    flex: 1 1 420px;
+  .match-time {
+    min-width: 92px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+  .team {
+    max-width: 40%;
   }
 }
 
-@media (max-width: 560px) {
-  .matches-box {
-    width: calc(100% - 32px);
-    min-width: unset;
-  }
-
-  .match-teams {
-    gap: 6px;
-  }
-
-  .team {
-    font-size: 14px;
-  }
-
-  .match-time {
-    min-width: 42px;
-    font-size: 14px;
-  }
+/* estética extra para o título do bloco principal (se usado) */
+.matches-page-title {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin-bottom: 8px;
 }

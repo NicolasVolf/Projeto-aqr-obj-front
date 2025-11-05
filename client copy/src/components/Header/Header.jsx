@@ -11,7 +11,7 @@ const Header = () => {
       <header className="header">
         <div className="header-content">
           <div className="logo">
-            <span>SofaScore</span>
+            <span>InsperScore</span>
           </div>
           <input
             className="search-bar"

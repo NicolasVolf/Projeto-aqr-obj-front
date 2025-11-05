@@ -1,257 +1,105 @@
-import React from 'react';
+// src/components/MatchModal/MatchModal.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './MatchModal.css';
 
-/**
- * detailedMatches é o "mock DB" local. Aqui coloquei jogadores reais quando encontrei
- * (ex.: nomes do Vasco do site oficial; nomes do Flamengo confirmados em fontes),
- * o resto foi mockado.
- *
- * Fontes: Vasco (site oficial), Transfermarkt/Globo notícias (Flamengo). Veja as referências.
- */
-const detailedMatches = {
-  'flamengo-vasco-1': {
-    home: {
-      name: 'Flamengo',
-      stadium: 'Maracanã',
-      date: '2025-11-12',
-      time: '18:30',
-      players: [
-        'Agustín Rossi',
-        'Rodrigo Caio',
-        'Giorgian De Arrascaeta',
-        'Jorginho',
-        'Bruno Henrique',
-        'Everton Ribeiro',
-        'Luiz Araújo',
-        'João Gomes',
-        'Pedro',
-        'Isla',
-        'Arthur'
-      ],
-      stadiumInfo: {
-        name: 'Maracanã',
-        city: 'Rio de Janeiro',
-        capacity: '78.838'
-      }
-    },
-    away: {
-      name: 'Vasco',
-      stadium: 'São Januário',
-      date: '2025-11-12',
-      time: '18:30',
-      players: [
-        'Léo Jardim', 'Daniel Fuzato', 'Pablo', 'Paulo Ricardo', 'Puma Rodríguez',
-        'Carlos Cuesta', 'Robert Renan', 'Lucas Freitas', 'Andrés Gómez', 'Mateus Carvalho',
-        'Adson', 'Thiago Mendes'
-      ],
-      stadiumInfo: {
-        name: 'Estádio de São Januário',
-        city: 'Rio de Janeiro',
-        capacity: '21.880'
-      }
-    }
-  },
-  'sao-paulo-corinthians-1': {
-    home: {
-      name: 'São Paulo',
-      date: '2025-11-12',
-      time: '20:00',
-      players: [
-        'Rafael', 'Igor Vinícius', 'Arboleda', 'Beraldo', 'Caio Paulista',
-        'Pablo Maia', 'Alisson', 'Rodrigo Nestor', 'Wellington Rato',
-        'Lucas Moura', 'Calleri'
-      ],
-      stadiumInfo: {
-        name: 'Morumbi',
-        city: 'São Paulo',
-        capacity: '66.795'
-      }
-    },
-    away: {
-      name: 'Corinthians',
-      date: '2025-11-12',
-      time: '20:00',
-      players: [
-        'Cássio', 'Fagner', 'Gil', 'Lucas Veríssimo', 'Fábio Santos',
-        'Gabriel Moscardo', 'Maycon', 'Renato Augusto', 'Matías Rojas',
-        'Yuri Alberto', 'Wesley'
-      ],
-      stadiumInfo: {
-        name: 'Morumbi',
-        city: 'São Paulo',
-        capacity: '66.795'
-      }
-    }
-  },
-  'slavia-arsenal-1': {
-    home: {
-      name: 'Slavia Praha',
-      date: '2025-11-12',
-      time: '14:45',
-      players: [
-        'Mandous', 'Vlček', 'Ogbu', 'Holeš', 'Provod',
-        'Zafeiris', 'Dorley', 'Douděra', 'Wallem',
-        'Chytil', 'Schranz'
-      ],
-      stadiumInfo: {
-        name: 'Eden Arena',
-        city: 'Praga',
-        capacity: '19.370'
-      }
-    },
-    away: {
-      name: 'Arsenal',
-      date: '2025-11-12',
-      time: '14:45',
-      players: [
-        'Raya', 'White', 'Saliba', 'Gabriel', 'Zinchenko',
-        'Rice', 'Partey', 'Ødegaard', 'Saka',
-        'Jesus', 'Martinelli'
-      ],
-      stadiumInfo: {
-        name: 'Eden Arena',
-        city: 'Praga',
-        capacity: '19.370'
-      }
-    }
-  },
-  'liverpool-real-1': {
-    home: {
-      name: 'Liverpool',
-      date: '2025-11-12',
-      time: '17:00',
-      players: [
-        'Alisson', 'Alexander-Arnold', 'Van Dijk', 'Konaté', 'Robertson',
-        'Mac Allister', 'Szoboszlai', 'Jones', 'Salah',
-        'Núñez', 'Díaz'
-      ],
-      stadiumInfo: {
-        name: 'Anfield',
-        city: 'Liverpool',
-        capacity: '53.394'
-      }
-    },
-    away: {
-      name: 'Real Madrid',
-      date: '2025-11-12',
-      time: '17:00',
-      players: [
-        'Kepa', 'Carvajal', 'Rüdiger', 'Alaba', 'Mendy',
-        'Valverde', 'Tchouaméni', 'Kroos', 'Bellingham',
-        'Vinícius Jr.', 'Rodrygo'
-      ],
-      stadiumInfo: {
-        name: 'Anfield',
-        city: 'Liverpool',
-        capacity: '53.394'
-      }
-    }
-  },
-  'la-nycfc-1': {
-    home: {
-      name: 'LA Galaxy',
-      date: '2025-11-12',
-      time: '22:00',
-      players: [
-        'Bond', 'Calegari', 'Zabaleta', 'Mavinga', 'Aude',
-        'Puig', 'Delgado', 'Fagundez', 'Álvarez',
-        'Joveljić', 'Pochettino'
-      ],
-      stadiumInfo: {
-        name: 'Dignity Health Sports Park',
-        city: 'Carson',
-        capacity: '27.000'
-      }
-    },
-    away: {
-      name: 'New York City FC',
-      date: '2025-11-12',
-      time: '22:00',
-      players: [
-        'Barraza', 'Gray', 'Martins', 'Alfaro', 'O\'Toole',
-        'Parks', 'Perea', 'Rodríguez', 'Magno',
-        'Segal', 'Jasson'
-      ],
-      stadiumInfo: {
-        name: 'Dignity Health Sports Park',
-        city: 'Carson',
-        capacity: '27.000'
-      }
-    }
-  },
-  'intermiami-atlanta-1': {
-    home: {
-      name: 'Inter Miami',
-      date: '2025-11-12',
-      time: '23:30',
-      players: [
-        'Callender', 'Yedlin', 'Kryvtsov', 'Miller', 'Alba',
-        'Busquets', 'Cremaschi', 'Gómez', 'Messi',
-        'Martínez', 'Taylor'
-      ],
-      stadiumInfo: {
-        name: 'DRV PNK Stadium',
-        city: 'Fort Lauderdale',
-        capacity: '21.000'
-      }
-    },
-    away: {
-      name: 'Atlanta United',
-      date: '2025-11-12',
-      time: '23:30',
-      players: [
-        'Guzan', 'Lennon', 'Robinson', 'Purata', 'Wiley',
-        'Sosa', 'Almada', 'Araujo', 'Lobjanidze',
-        'Giakoumakis', 'Silva'
-      ],
-      stadiumInfo: {
-        name: 'DRV PNK Stadium',
-        city: 'Fort Lauderdale',
-        capacity: '21.000'
-      }
-    }
-  }
+// (opcional) seu mock local com jogadores; se não quiser fallback, remova/ignore
+const detailedMatchesFallback = {
+  // ... cole seu detailedMatches aqui se quiser fallback de jogadores
 };
 
-const MatchModal = ({ matchKey, onClose }) => {
-  if (!matchKey) return null;
+const MatchModal = ({ matchId, onClose }) => {
+  const [loading, setLoading] = useState(false);
+  const [match, setMatch] = useState(null); // objeto vindo do backend
+  const [fallback, setFallback] = useState(null);
 
-  const match = detailedMatches[matchKey];
+  useEffect(() => {
+    if (!matchId) {
+      setMatch(null);
+      setFallback(null);
+      return;
+    }
+
+    let mounted = true;
+    async function fetchDetail() {
+      try {
+        setLoading(true);
+        const res = await axios.get(`/api/partidas/${matchId}`);
+        if (!mounted) return;
+        setMatch(res.data);
+
+        // opcional: tentar achar fallback players pelo padrão de chave (se você mantiver detailedMatches)
+        // ex.: chave = `${mandante}-${visitante}-1` em lowercase
+        const mand = res.data.timeMandante?.nome?.toLowerCase().replace(/\s+/g, '-');
+        const vis = res.data.timeVisitante?.nome?.toLowerCase().replace(/\s+/g, '-');
+        const key = mand && vis ? `${mand}-${vis}-1` : null;
+        if (key && detailedMatchesFallback[key]) setFallback(detailedMatchesFallback[key]);
+        else setFallback(null);
+      } catch (err) {
+        console.error(err);
+        setMatch(null);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    fetchDetail();
+    return () => { mounted = false; };
+  }, [matchId]);
+
+  if (!matchId) return null;
+
+  // se não existe match (erro), exibe nada
+  if (loading) return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content">Carregando...</div>
+    </div>
+  );
+
   if (!match) return null;
+
+  const home = match.timeMandante;
+  const away = match.timeVisitante;
+  const estadio = match.estadio;
+  const campeonato = match.campeonato;
 
   return (
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>✕</button>
+
         <div className="modal-header">
-          <h2>{match.home.name} <span className="vs-inline">x</span> {match.away.name}</h2>
+          <h2>{home?.nome || '—'} <span className="vs-inline">x</span> {away?.nome || '—'}</h2>
           <div className="meta">
-            <div>{match.home.date} — {match.home.time}</div>
-            <div>{match.home.stadiumInfo.name} • {match.home.stadiumInfo.city}</div>
+            <div>{match.data || ''} {match.resultado ? `• Resultado: ${match.resultado}` : ''}</div>
+            <div>{campeonato?.nome || ''} {estadio ? `• ${estadio.nome}` : ''}</div>
           </div>
         </div>
 
         <div className="modal-body">
           <div className="team-column">
-            <h3>{match.home.name}</h3>
-            <ul>
-              {match.home.players.map((p, i) => <li key={i}>{p}</li>)}
-            </ul>
+            <h3>{home?.nome}</h3>
+            {fallback?.home?.players ? (
+              <ul>{fallback.home.players.map((p, i) => <li key={i}>{p}</li>)}</ul>
+            ) : (
+              <div className="no-players">Nenhuma lista de jogadores disponível</div>
+            )}
           </div>
 
           <div className="match-middle">
             <div className="stadium-box">
               <div><strong>Estádio</strong></div>
-              <div>{match.home.stadiumInfo.name}</div>
-              <div>Capacidade: {match.home.stadiumInfo.capacity}</div>
+              <div>{estadio?.nome || '—'}</div>
             </div>
           </div>
 
           <div className="team-column">
-            <h3>{match.away.name}</h3>
-            <ul>
-              {match.away.players.map((p, i) => <li key={i}>{p}</li>)}
-            </ul>
+            <h3>{away?.nome}</h3>
+            {fallback?.away?.players ? (
+              <ul>{fallback.away.players.map((p, i) => <li key={i}>{p}</li>)}</ul>
+            ) : (
+              <div className="no-players">Nenhuma lista de jogadores disponível</div>
+            )}
           </div>
         </div>
 
